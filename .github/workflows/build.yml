@@ -1,0 +1,28 @@
+name: Build APK with Buildozer
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build with Buildozer
+        uses: ArtemSB/action-buildozer@master
+        env:
+          APP_ANDROID_ACCEPT_SDK_LICENSE: 1
+        with:
+          buildozer_version: stable
+          command: android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: 5MConcrete-APK
+          path: bin/*.apk
