@@ -14,15 +14,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build with Buildozer
-        uses: ArtemSB/action-buildozer@master
-        env:
-          APP_ANDROID_ACCEPT_SDK_LICENSE: 1
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
         with:
+          workdir: .
           buildozer_version: stable
-          command: android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: 5MConcrete-APK
-          path: bin/*.apk
+          path: ${{ steps.buildozer.outputs.filename }}
